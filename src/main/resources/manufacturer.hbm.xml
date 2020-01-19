@@ -3,7 +3,9 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 <class name="dao.Manufacturer" table="manufacturer">
-<id name="manufacturer_id" type="java.lang.Integer"></id>
+<id name="manufacturer_id" type="java.lang.Integer">
+  <!--  <generator class="identity" />-->
+</id>
 
     <property name="country" type="string">
         <column name="country" length="20" not-null="true" />

@@ -17,10 +17,34 @@ public class MainClass {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         Phone phone = mainClass.preparePhoneInsertData();
+        //Phone phone1 = mainClass.preparePhoneInsertData();
         session.save(phone);
+        //session.save(phone1);
         System.out.println("---data inserted---");
 
         transaction.commit();
+
+        /**
+         * load data from database using load() method
+         * // For loading Transaction scope is not necessary
+         *
+         * we have 2 methods to load the object from the database, they are load and get
+         */
+
+        Object o = session.load(Phone.class, new Integer(1));
+        Phone p=(Phone)o;
+        System.out.println("loading the data from database of phone model and phone id : "+p.getPhone_model() +" "+p.getPhone_id());
+
+        /**
+         * delete the data
+         *
+         * we have only one method to delete an object from the database
+         */
+
+        Transaction deleteTransaction=session.beginTransaction();
+        session.delete(p);
+        System.out.println("Delete the data from database using delete method and the id of deleted phone is :"+p.getPhone_id());
+        deleteTransaction.commit();
 
         // delete data
 
@@ -32,10 +56,11 @@ public class MainClass {
 
         // updating data
 
-          Transaction transaction3 = session.beginTransaction();
+          /*Transaction transaction3 = session.beginTransaction();
           Phone updateData1 = mainClass.prepareUpdateData();
           session.update(updateData1);
-          transaction3.commit();
+          transaction3.commit();*/
+        sessionFactory.close();
 
 
 

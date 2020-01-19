@@ -5,13 +5,17 @@
 	<class name="dao.Phone" table="phone">
 
 		<id name="phone_id" column="phoneid" >
-			<!--<generator class="identity" /> -->
+           <!-- means in the database table what column we need to take as primary key column,
+           that property name we need to give here-->
+			<generator class="identity" />
 			<!-- if generator class is other than assigned(means as a programmer we will give values) then we cannot use persist -->
 			<!-- if we are using this generator class other thn assigned then we cannot use session.persist -->
 		</id>
 		<!--<version name="ver" column="ver"></version>-->
 
 		<property name="sim_slots" type="string">
+            <!--if we don't specify column name explicitly here then
+            our property name in the pojo class and the column name in the table both are same.-->
 			<column name="simslots" length="255" />
 		</property>
 		<property name="phone_model" type="string">
