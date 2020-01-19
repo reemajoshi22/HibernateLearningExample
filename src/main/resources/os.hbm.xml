@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="dao.OS" table="os">
+	
+		<id name="os_id" type="java.lang.Integer">
+			<!-- <column name="osid" unique="true" />
+			<column name="id" /> -->
+			<!-- <generator class="identity" /> -->
+		</id>
+
+		<property name="os_name" type="string">
+			<column name="osname" length="20" not-null="true"  />
+		</property>
+	</class>
+</hibernate-mapping>

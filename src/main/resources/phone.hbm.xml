@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="dao.Phone" table="phone">
+
+		<id name="phone_id" column="phoneid" >
+			<!--<generator class="identity" /> -->
+			<!-- if generator class is other than assigned(means as a programmer we will give values) then we cannot use persist -->
+			<!-- if we are using this generator class other thn assigned then we cannot use session.persist -->
+		</id>
+		<!--<version name="ver" column="ver"></version>-->
+
+		<property name="sim_slots" type="string">
+			<column name="simslots" length="255" />
+		</property>
+		<property name="phone_model" type="string">
+			<column name="phonemodel" length="20" />
+		</property>
+		<many-to-one name="os" column="osid" class="dao.OS" cascade="all"></many-to-one>
+		<many-to-one name="manufacturer" column="manufacturerid"
+			class="dao.Manufacturer" cascade="all"></many-to-one>
+	</class>
+</hibernate-mapping>
