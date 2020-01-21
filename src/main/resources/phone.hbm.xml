@@ -11,8 +11,8 @@
 			<!-- if generator class is other than assigned(means as a programmer we will give values) then we cannot use persist -->
 			<!-- if we are using this generator class other thn assigned then we cannot use session.persist -->
 		</id>
-		<!--<version name="ver" column="ver"></version>-->
-
+		<version name="ver" column="ver"></version> <!--this is added to know ho many times a object is modofied-->
+		<property name="price" type="integer"/>
 		<property name="sim_slots" type="string">
             <!--if we don't specify column name explicitly here then
             our property name in the pojo class and the column name in the table both are same.-->

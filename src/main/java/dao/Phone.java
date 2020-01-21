@@ -10,7 +10,13 @@ public class Phone {
 
     @Id
     int phone_id;
+    int ver;
+
     String sim_slots;
+    /*int price;*/
+    Integer price;
+
+
     String phone_model;
     OS os;
     Manufacturer manufacturer;
@@ -54,5 +60,18 @@ public class Phone {
     public void setManufacturer(Manufacturer manufacturer) {
         this.manufacturer = manufacturer;
     }
+    public int getVer() {
+        return ver;
+    }
 
+    public void setVer(int ver) {
+        this.ver = ver;
+    }
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
 }

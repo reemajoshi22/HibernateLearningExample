@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="inheritenceinhibernate.InheritParentPayment" table="PAYMENT">
+
+		<id name="paymentId" column="pid" >
+		<generator class="hilo"></generator></id>
+		<discriminator column="dcolumn" type="string" length="50" />
+		<property name="amount" column="amt" />
+		<!-- <subclass name="hibernatelearning.InheritChildCreditCard" discriminator-value="CC"> 
+			<property name="CreditCardType" column="cctype" length="10" /> </subclass> 
+			<subclass name="hibernatelearning.InheritChildCheque" discriminator-value="cq"> 
+			<property name="ChequeType" column="cqtype" length="10" /> </subclass> -->
+		<joined-subclass name="inheritenceinhibernate.InheritChildCreditCard" table="CreditCard">
+			<key column="dummy1" />
+			<property name="CreditCardType" column="cctype" length="10" />
+		</joined-subclass>
+
+		<joined-subclass name="hibernatelearning.InheritChildCheque" table="Cheque">
+			<key column="dummy2" />
+			<property name="ChequeType" column="cqtype" length="10" />
+		</joined-subclass>
+	</class>
+</hibernate-mapping>

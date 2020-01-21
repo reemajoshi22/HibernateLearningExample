@@ -18,6 +18,12 @@ public class MainClass {
         Transaction transaction = session.beginTransaction();
         Phone phone = mainClass.preparePhoneInsertData();
         //Phone phone1 = mainClass.preparePhoneInsertData();
+
+        /**
+         * save()
+         * persist()
+         * saveOrUpdate()
+         */
         session.save(phone);
         //session.save(phone1);
         System.out.println("---data inserted---");
@@ -31,9 +37,13 @@ public class MainClass {
          * we have 2 methods to load the object from the database, they are load and get
          */
 
-        Object o = session.load(Phone.class, new Integer(1));
+        Object o = session.load(Phone.class, new Integer(2));
         Phone p=(Phone)o;
-        System.out.println("loading the data from database of phone model and phone id : "+p.getPhone_model() +" "+p.getPhone_id());
+        //p.setPhone_model("nokia"); //-- update first approach
+        // hibernate stores the loaded object in the cache memory so when we modify the loaded
+        // object the automatically it calls update after transaction is commited.
+        // i.e hibernate maintains synchronization between cache memory and table objects.
+//        System.out.println("loading the data from database of phone model and phone id : "+p.getPhone_model() +" "+p.getPhone_id());
 
         /**
          * delete the data
@@ -42,45 +52,58 @@ public class MainClass {
          */
 
         Transaction deleteTransaction=session.beginTransaction();
-        session.delete(p);
+       // session.delete(p);
         System.out.println("Delete the data from database using delete method and the id of deleted phone is :"+p.getPhone_id());
         deleteTransaction.commit();
 
-        // delete data
-
-         /* Transaction transaction2 = session.beginTransaction(); Phone
-          prepareUpdateData = mainClass.prepareUpdateData();
-          session.delete(prepareUpdateData);
-          transaction2.commit();*/
 
 
-        // updating data
+        // updating data- we have two approaches in the hibernate for updating the data.
 
-          /*Transaction transaction3 = session.beginTransaction();
+        //first approach : Load that object from the database, and modify its values,
+        // now hibernate automatically modifies the
+        // values on to database also, when ever the transaction is committed.
+
+        // second approach :
+        //If we want to modify object in the database,
+        //then create new object with same id and we must call update()
+
+       /* Transaction transaction3 = session.beginTransaction();
           Phone updateData1 = mainClass.prepareUpdateData();
           session.update(updateData1);
-          transaction3.commit();*/
+          transaction3.commit();
+*/
+
+
+        /**
+         * If we want to know how many no of times that
+         * an object is modified then we need to apply this versioning concept.
+         *
+         * When ever we use versioning then hibernate inserts version number as zero,
+         * when ever object is saved for the first time in the database.
+         * Later hibernate increments that version no by
+         * one automatically when ever a modification is done on that particular object.
+         */
+
         sessionFactory.close();
-
-
 
     }
 
     private Phone prepareUpdateData() {
         Phone phone = new Phone();
         phone.setPhone_id(145);
-        phone.setSim_slots("18");
-        phone.setPhone_model("nokia11");
+        phone.setSim_slots("2");
+        phone.setPhone_model("iphone");
 
         OS os = new OS();
-        os.setOs_id(40);
-        os.setOs_name("androidd");
+        os.setOs_id(8);
+        os.setOs_name("mac");
         phone.setOs(os);
 
         Manufacturer manufacturer = new Manufacturer();
-        manufacturer.setManufacturer_id(41);
-        manufacturer.setManufacturername("nokiaa");
-        manufacturer.setCountry("india");
+        manufacturer.setManufacturer_id(8);
+        manufacturer.setManufacturername("apple");
+        manufacturer.setCountry("usa");
         phone.setManufacturer(manufacturer);
 
         return phone;
@@ -89,6 +112,16 @@ public class MainClass {
 
 
     private Phone preparePhoneInsertData() {
+
+        /**i am using primitive data types.
+         * i have not written setter for price
+         *
+         *
+         * But once you execute this program in the database it will saves the price as 0(zero),
+         * so misunderstanding of data will happen like phone price is zero
+         */
+
+        // if using wrapper classes then it will insert null
         Phone phone = new Phone();
         phone.setPhone_id(125);
 
@@ -96,12 +129,12 @@ public class MainClass {
         phone.setPhone_model("nokia11");
 
         OS os = new OS();
-        os.setOs_id(228);
+        os.setOs_id(208);
         os.setOs_name("android");
         phone.setOs(os);
 
         Manufacturer manufacturer = new Manufacturer();
-        manufacturer.setManufacturer_id(38);
+        manufacturer.setManufacturer_id(208);
         manufacturer.setManufacturername("nokia");
         manufacturer.setCountry("india");
         phone.setManufacturer(manufacturer);
