@@ -3,9 +3,10 @@ package dao;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable; // for composite id we shud implemet Serializable
 
 @Entity(name="phone")
-public class Phone {
+public class Phone implements Serializable {
 
 
     @Id

@@ -5,12 +5,34 @@
 	<class name="dao.Phone" table="phone">
 
 		<id name="phone_id" column="phoneid" >
-           <!-- means in the database table what column we need to take as primary key column,
+           <!-- means in the database table what column we need to take as
+           primary key column,
            that property name we need to give here-->
-			<generator class="identity" />
+			<!--<generator class="identity" />-->
+			<!--for the first record, the id value will be inserted as 1
+			for the second record the id value will be inserted as 32768
+			for the next records the id value will be incremented by 32768 and will stores into the database (i mean adds to the previous)
+			actually this hibernate stores the count of id values generated in a column of separated table, with name “hibernate_unique_key” by default with the column name “next_hi”
+			if we want to modify the table and column names theen wee need to pass 2 parameter’s for the hilo generators-->
+			<generator class="hilo"></generator>
+				<!--when we use identity and if there are values already present then
+			we cannot use identity cz it throws id doesn't have a default value-->
+			<!--this identity generator is similar to increment generator,
+			but the difference was increment generator is database independent and
+			hibernate uses a select operation for selecting max of id before inserting new record-->
+
+
+			<!--1 assigned means hibernate will understand that, while saving any object
+			hibernate is not responsible to create any primary key
+			value for the current inserting object, user has to take the response-->
 			<!-- if generator class is other than assigned(means as a programmer we will give values) then we cannot use persist -->
 			<!-- if we are using this generator class other thn assigned then we cannot use session.persist -->
 		</id>
+		<!--multiple primary key i.e composite key-->
+		<!--<composite-id>
+			<key-property name="phone_id" />
+			<key-property name="phone_model" type="string" length="20" />
+		</composite-id>-->
 		<version name="ver" column="ver"></version> <!--this is added to know ho many times a object is modofied-->
 		<property name="price" type="integer"/>
 		<property name="sim_slots" type="string">
@@ -18,9 +40,9 @@
             our property name in the pojo class and the column name in the table both are same.-->
 			<column name="simslots" length="255" />
 		</property>
-		<property name="phone_model" type="string">
+		<!--<property name="phone_model" type="string">
 			<column name="phonemodel" length="20" />
-		</property>
+		</property>-->
 		<many-to-one name="os" column="osid" class="dao.OS" cascade="all"></many-to-one>
 		<many-to-one name="manufacturer" column="manufacturerid"
 			class="dao.Manufacturer" cascade="all"></many-to-one>

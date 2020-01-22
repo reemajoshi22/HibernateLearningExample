@@ -3,6 +3,8 @@ package main;
 import dao.Manufacturer;
 import dao.OS;
 import dao.Phone;
+import inheritenceinhibernate.InheritChildCheque;
+import inheritenceinhibernate.InheritChildCreditCard;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -36,14 +38,22 @@ public class MainClass {
          *
          * we have 2 methods to load the object from the database, they are load and get
          */
-
-        Object o = session.load(Phone.class, new Integer(2));
+        /*Phone phoneLoad=new Phone();
+        phoneLoad.setPhone_id(125); // id and model is set because it forms a composite key
+        // as defined in mapping file
+        //  second parameter of the get/load method is always a Serializable object
+        phoneLoad.setPhone_model("nokia11");*/
+        // here phoneLoad must be an serializable object
+        //Object o = session.load(Phone.class, phoneLoad);
+        Object o = session.load(Phone.class, new Integer(1)); // use this if not using
+        // composite key
+        //here new Integer(101) is the wrapper, all wrappers are Serializable by default.
         Phone p=(Phone)o;
         //p.setPhone_model("nokia"); //-- update first approach
         // hibernate stores the loaded object in the cache memory so when we modify the loaded
         // object the automatically it calls update after transaction is commited.
         // i.e hibernate maintains synchronization between cache memory and table objects.
-//        System.out.println("loading the data from database of phone model and phone id : "+p.getPhone_model() +" "+p.getPhone_id());
+        System.out.println("loading the data from database of phone model and phone id : "+p.getPhone_model() +" "+p.getPhone_id());
 
         /**
          * delete the data
@@ -53,7 +63,7 @@ public class MainClass {
 
         Transaction deleteTransaction=session.beginTransaction();
        // session.delete(p);
-        System.out.println("Delete the data from database using delete method and the id of deleted phone is :"+p.getPhone_id());
+        //System.out.println("Delete the data from database using delete method and the id of deleted phone is :"+p.getPhone_id());
         deleteTransaction.commit();
 
 
@@ -85,6 +95,25 @@ public class MainClass {
          * one automatically when ever a modification is done on that particular object.
          */
 
+        //saveParentChild
+       /* InheritChildCreditCard c=new InheritChildCreditCard();
+
+        c.setPaymentId(10);
+        c.setAmount(2500);
+        c.setCreditCardType("Visa");
+
+        InheritChildCheque c1=new InheritChildCheque();
+
+        c1.setPaymentId(11);
+        c1.setAmount(2600);
+        c1.setChequeType("ICICI");
+
+        Transaction tx = session.beginTransaction();
+        session.save(c);
+        session.save(c1);
+        tx.commit();*/
+        session.close();
+        System.out.println("Object saved successfully.....!!");
         sessionFactory.close();
 
     }

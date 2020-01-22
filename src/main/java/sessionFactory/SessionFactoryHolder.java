@@ -12,6 +12,7 @@ public class SessionFactoryHolder {
     public static SessionFactory buildSessionFactory() {
         if(factory==null){
             Configuration configuration=new Configuration().configure("hibernate_learning.cfg.xml");
+            /*Configuration configuration=new Configuration().configure("hibernate_learning_parentChild.cfg.xml");*/
             StandardServiceRegistry standardServiceRegistry= new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties()).build();
             factory = configuration.buildSessionFactory(standardServiceRegistry);

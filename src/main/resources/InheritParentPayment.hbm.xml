@@ -2,24 +2,60 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="inheritenceinhibernate.InheritParentPayment" table="PAYMENT">
+
+	<!--1.table per class -->
+	<!--<class name="inheritenceinhibernate.InheritParentPayment" table="PAYMENT">
 
 		<id name="paymentId" column="pid" >
-		<generator class="hilo"></generator></id>
+		&lt;!&ndash;<generator class="hilo"></generator>&ndash;&gt;</id>
 		<discriminator column="dcolumn" type="string" length="50" />
 		<property name="amount" column="amt" />
-		<!-- <subclass name="hibernatelearning.InheritChildCreditCard" discriminator-value="CC"> 
-			<property name="CreditCardType" column="cctype" length="10" /> </subclass> 
-			<subclass name="hibernatelearning.InheritChildCheque" discriminator-value="cq"> 
-			<property name="ChequeType" column="cqtype" length="10" /> </subclass> -->
+		 <subclass name="inheritenceinhibernate.InheritChildCreditCard" discriminator-value="CC">
+			<property name="CreditCardType"  column="cctype" length="10" />
+		 </subclass>
+
+			<subclass name="inheritenceinhibernate.InheritChildCheque" discriminator-value="cq">
+			<property name="ChequeType"  column="cqtype" length="10" />
+			</subclass>
+	</class>-->
+
+
+	<!--table per subclass-->
+	<!--<key –> element is because,  once we save the derived class object,
+	then hibernate will first save the baseclass object then derived class object
+	right ..!, so at the time of saving the derived class object hibernate
+	will copy the primary
+	key value of the base class into the corresponding derived class-->
+	<!--<class name="inheritenceinhibernate.InheritParentPayment" table="PAYMENT">
+
+		<id name="paymentId" column="pid" />
+		<property name="amount" column="amt" />
+
 		<joined-subclass name="inheritenceinhibernate.InheritChildCreditCard" table="CreditCard">
 			<key column="dummy1" />
 			<property name="CreditCardType" column="cctype" length="10" />
 		</joined-subclass>
 
-		<joined-subclass name="hibernatelearning.InheritChildCheque" table="Cheque">
+		<joined-subclass name="inheritenceinhibernate.InheritChildCheque" table="Cheque">
 			<key column="dummy2" />
 			<property name="ChequeType" column="cqtype" length="10" />
 		</joined-subclass>
+
+	</class>-->
+
+	<!-- 3. Table Per Concrete Class-->
+	<class name="inheritenceinhibernate.InheritParentPayment" table="PAYMENT">
+
+		<id name="paymentId" column="pid" />
+		<property name="amount" column="amt" />
+
+		<union-subclass name="inheritenceinhibernate.InheritChildCreditCard" table="CreditCard">
+			<property name="CreditCardType" column="cctype" length="10" />
+		</union-subclass>
+
+		<union-subclass name="inheritenceinhibernate.InheritChildCheque" table="Cheque">
+			<property name="ChequeType" column="cqtype" length="10" />
+		</union-subclass>
+
 	</class>
 </hibernate-mapping>
