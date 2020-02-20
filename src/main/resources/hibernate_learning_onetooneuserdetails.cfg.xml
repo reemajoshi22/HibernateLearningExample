@@ -12,8 +12,7 @@
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="show_sql">true</property>
 		<property name="hbm2ddl.auto">create</property>
-		<mapping resource="manufacturer.hbm.xml"></mapping>
-		<mapping resource="os.hbm.xml"></mapping>
-		<mapping resource="phone.hbm.xml"></mapping>
+		<mapping class="onetoOne.UserDetails"></mapping>
+		<mapping class="onetoOne.Vehicle"></mapping>
 	</session-factory>
 </hibernate-configuration>

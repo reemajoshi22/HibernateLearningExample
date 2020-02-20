@@ -3,6 +3,8 @@ package main;
 import dao.Manufacturer;
 import dao.OS;
 import dao.Phone;
+import inheritenceinhibernate.InheritChildCheque;
+import inheritenceinhibernate.InheritChildCreditCard;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -29,7 +31,6 @@ public class MainClass {
         System.out.println("---data inserted---");
 
         transaction.commit();
-
         /**
          * load data from database using load() method
          * // For loading Transaction scope is not necessary
@@ -37,8 +38,12 @@ public class MainClass {
          * we have 2 methods to load the object from the database, they are load and get
          */
 
-        Object o = session.load(Phone.class, new Integer(2));
+      /*  Object o = session.load(Phone.class, new Integer(2));
         Phone p=(Phone)o;
+        System.out.println(p.getManufacturer());*/  // object not found excepeption as it doesnot exists
+       /* Object getObject = session.get(Phone.class, new Integer(2));
+        Phone getObject1 = (Phone) getObject;
+        System.out.println(getObject1.getManufacturer());*/  // null pointer exception is thrown here as key 2 doesnot exists
         //p.setPhone_model("nokia"); //-- update first approach
         // hibernate stores the loaded object in the cache memory so when we modify the loaded
         // object the automatically it calls update after transaction is commited.
@@ -53,9 +58,11 @@ public class MainClass {
 
         Transaction deleteTransaction=session.beginTransaction();
        // session.delete(p);
-        System.out.println("Delete the data from database using delete method and the id of deleted phone is :"+p.getPhone_id());
+        //System.out.println("Delete the data from database using delete method and the id of deleted phone is :"+p.getPhone_id());
         deleteTransaction.commit();
 
+        session.close();
+        sessionFactory.close();
 
 
         // updating data- we have two approaches in the hibernate for updating the data.
@@ -85,7 +92,7 @@ public class MainClass {
          * one automatically when ever a modification is done on that particular object.
          */
 
-        sessionFactory.close();
+
 
     }
 

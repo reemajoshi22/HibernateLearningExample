@@ -17,7 +17,7 @@
 			<property name="CreditCardType" column="cctype" length="10" />
 		</joined-subclass>
 
-		<joined-subclass name="hibernatelearning.InheritChildCheque" table="Cheque">
+		<joined-subclass name="inheritenceinhibernate.InheritChildCheque" table="Cheque">
 			<key column="dummy2" />
 			<property name="ChequeType" column="cqtype" length="10" />
 		</joined-subclass>
